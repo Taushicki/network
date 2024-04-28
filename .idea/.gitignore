@@ -1,0 +1,30 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+#builds
+bin/
+out/
+target/
+
+#ide
+.idea/
+.vscode/
+
+#ide configs
+.classpath
+.project
+.settings/
+
+# log files
+*.log
+*.log.*
+*.tmp
+
+.env
+*.properties
+
+/reports/
+/decs/
+
+/lib/
