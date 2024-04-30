@@ -10,4 +10,10 @@ public class FavoriteNewsDTO {
         this.user_id = user_id;
         this.news_id = news_id;
     }
+
+    public String getId() { return id; }
+
+    public String getUserId() { return user_id; }
+
+    public String getNewsId() { return news_id; }
 }

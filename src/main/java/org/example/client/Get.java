@@ -19,11 +19,4 @@ public class Get implements Request{
             return response.body().string();
         }
     }
-
-//    public String post(String path) throws Exception{
-//        RequestBody
-//        okhttp3.Request request = new okhttp3.Request.Builder()
-//                .url(baseUrl + path)
-//                .post()
-//    }
 }

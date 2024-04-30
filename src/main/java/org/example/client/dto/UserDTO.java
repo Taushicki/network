@@ -14,4 +14,14 @@ public class UserDTO {
         this. password = password;
         this.rights = rights;
     }
+
+    public String getId(){ return user_id; }
+
+    public String getLogin() { return login; }
+
+    public String getEmail() { return email; }
+
+    public String getPassword() { return password; }
+
+    public String getRights() { return rights; }
 }
