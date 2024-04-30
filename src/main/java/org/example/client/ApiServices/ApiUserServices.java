@@ -7,7 +7,7 @@ public class ApiUserServices implements ApiServices {
 
     public UserDTO getUserById(String user_id) throws Exception{
         try{
-            return gson.fromJson(getRequest.get("/users/get_by_i/%s".formatted(user_id)), UserDTO.class);
+            return gson.fromJson(getRequest.get("/users/get_by_id/%s".formatted(user_id)), UserDTO.class);
         } catch (Exception error){
             throw new Exception(String.format("Failed to get user by id: %s", user_id), error);
         }
