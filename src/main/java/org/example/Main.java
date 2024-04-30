@@ -16,11 +16,5 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        try {
-            System.out.println(user_api.getUserById("cf48fa60-d073-48b4-8d88-1320da68019f").getLogin());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
