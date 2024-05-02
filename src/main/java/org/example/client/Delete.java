@@ -9,6 +9,7 @@ public class Delete implements Request{
 
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(baseUrl + path)
+                .addHeader("Content-Type", "application/json")
                 .delete()
                 .build();
 
