@@ -1,80 +1,158 @@
 package org.example.client.ApiServices;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.example.client.ErrorHandle.Handler;
 import org.example.client.dto.FavoriteNewsDTO;
 import org.example.client.dto.UserDTO;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 public class ApiUserServices implements ApiServices {
 
     public UserDTO getUserById(String user_id) throws Exception {
         try{
-            return gson.fromJson(getRequest.get("/users/get_by_id/%s".formatted(user_id)), UserDTO.class);
-        } catch (Exception error) {
-            throw new Exception(String.format("Failed to get user by id: %s", user_id), error);
+            JsonObject response = JsonParser.parseString(
+                    getRequest.get("/users/get_by_id/%s".formatted(user_id))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return gson.fromJson(response, UserDTO.class);
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
+        } catch (Exception error){
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
     public UserDTO[] getAllUsers() throws Exception {
         try {
-            return gson.fromJson(getRequest.get("/users/get_all"), UserDTO[].class);
+            JsonObject response = JsonParser.parseString(
+                    getRequest.get("/users/get_all")
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return gson.fromJson(response, UserDTO[].class);
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
         } catch (Exception error){
-            throw new Exception("Failed to get users", error);
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 
     public FavoriteNewsDTO[] getFavoriteNews(String user_id) throws Exception {
         try {
-            return gson.fromJson(getRequest.get(String.format("/users/get_favorite_news?user_id=%s&start=0&end=10", user_id)), FavoriteNewsDTO[].class);
-        } catch (Exception error) {
-            throw new Exception("Failed to get favorite news", error);
+            JsonObject response = JsonParser.parseString(
+                    getRequest.get(String.format("/users/get_favorite_news?user_id=%s&start=0&end=10", user_id))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return gson.fromJson(response, FavoriteNewsDTO[].class);
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
+        } catch (Exception error){
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 
     public UserDTO addUser(String login, String email, String password) throws Exception {
         try {
-            return gson.fromJson(postRequest.post("/users/register", String.format("""
+            JsonObject response = JsonParser.parseString(
+                    postRequest.post("/users/register", String.format("""
                     {
                       "login": "%s",
                       "email": "%s",
                       "password": "%s",
                       "rights": "user"
-                    }""", login, email, password)), UserDTO.class);
+                    }""", login, email, password))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return gson.fromJson(response, UserDTO.class);
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
         } catch (Exception error){
-            throw new Exception("Failed to add user", error);
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 
-    public UserDTO authenticationUser(String login, String password) throws Exception{
+    public UserDTO authenticationUser(String login, String password) throws Exception {
         try {
-            return gson.fromJson(getRequest.get(String.format("/users/authentication?login=%s&password=%s", login, password)), UserDTO.class);
+            JsonObject response = JsonParser.parseString(
+                    getRequest.get(String.format("/users/authentication?login=%s&password=%s", login, password))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return gson.fromJson(response, UserDTO.class);
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
         } catch (Exception error){
-            throw new Exception("Failed to authentication user", error);
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 
     public FavoriteNewsDTO addFavoriteNews(String user_id, String news_id) throws Exception {
         try {
-            return gson.fromJson(postRequest.post("/users/add_favorite_news", String.format("""
+            JsonObject response = JsonParser.parseString(
+                    postRequest.post("/users/add_favorite_news", String.format("""
                     {
                       "user_id": "%s",
                       "news_id": "%s"
-                    }""", user_id, news_id)), FavoriteNewsDTO.class);
-        } catch(Exception error){
-            throw new Exception("Failed to add favorite news", error);
+                    }""", user_id, news_id))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return gson.fromJson(response, FavoriteNewsDTO.class);
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
+        } catch (Exception error){
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 
     public String deleteFavoriteNews(String user_id, String news_id) throws Exception {
         try {
-            return deleteRequest.delete(String.format("/users/delete_favorite_news?user_id=%s&news_id=%s", user_id, news_id));
-        } catch (Exception error) {
-            throw new Exception("Failed to delete favorite news", error);
+            JsonObject response = JsonParser.parseString(
+                    deleteRequest.delete(String.format("/users/delete_favorite_news?user_id=%s&news_id=%s", user_id, news_id))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return response.get("Successful").toString();
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
+        } catch (Exception error){
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 
     public String deleteAllFavoriteNews(String user_id) throws Exception {
         try {
-            return deleteRequest.delete(String.format("/users/delete_all_favorite_news?user_id=%s", user_id));
-        } catch (Exception error) {
-            throw new Exception("Failed to delete all favorite", error);
+            JsonObject response = JsonParser.parseString(
+                    deleteRequest.delete(String.format("/users/delete_all_favorite_news?user_id=%s", user_id))
+            ).getAsJsonObject();
+
+            Handler.Response.getError(response);
+            return response.get("Successful").toString();
+
+        } catch (SocketTimeoutException | ConnectException error) {
+            Handler.Connection.getError(error);
+        } catch (Exception error){
+            throw error;
         }
+        throw new IllegalStateException("Unexpected state: unable to authenticate user");
     }
 }

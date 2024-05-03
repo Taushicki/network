@@ -1,6 +1,8 @@
 package org.example.client.ApiServices;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.example.client.Delete;
 import org.example.client.Get;
 import org.example.client.Post;
